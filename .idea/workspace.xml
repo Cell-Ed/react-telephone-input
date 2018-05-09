@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b5826d9e-5e15-4def-8385-2e89eea6210a" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/default.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/default.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/demo/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReactTelephoneInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReactTelephoneInput.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -17,20 +16,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ReactTelephoneInput.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ReactTelephoneInput.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ReactTelephoneInput.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1569">
-              <caret line="589" column="68" lean-forward="true" selection-start-line="589" selection-start-column="68" selection-end-line="589" selection-end-column="68" />
+            <state relative-caret-position="1524">
+              <caret line="571" column="29" selection-start-line="571" selection-start-column="29" selection-end-line="571" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="default.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="default.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/css/default.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1828">
-              <caret line="857" column="21" selection-start-line="857" selection-start-column="21" selection-end-line="857" selection-end-column="21" />
+            <state relative-caret-position="30">
+              <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -47,8 +46,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+            <state relative-caret-position="270">
+              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -85,9 +84,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/css/default.css" />
         <option value="$PROJECT_DIR$/demo/src/index.js" />
         <option value="$PROJECT_DIR$/src/ReactTelephoneInput.js" />
+        <option value="$PROJECT_DIR$/css/default.css" />
       </list>
     </option>
   </component>
@@ -226,12 +225,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1525728845486</updated>
-      <workItem from="1525728853882" duration="17888000" />
+      <workItem from="1525728853882" duration="23458000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17888000" />
+    <option name="totallyTimeSpent" value="23458000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1897" y="0" width="1943" height="2127" extended-state="0" />
@@ -303,13 +302,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/default.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1828">
-          <caret line="857" column="21" selection-start-line="857" selection-start-column="21" selection-end-line="857" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/react-telephone-input.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -319,8 +311,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+        <state relative-caret-position="270">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
@@ -329,8 +321,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ReactTelephoneInput.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1569">
-          <caret line="589" column="68" lean-forward="true" selection-start-line="589" selection-start-column="68" selection-end-line="589" selection-end-column="68" />
+        <state relative-caret-position="1524">
+          <caret line="571" column="29" selection-start-line="571" selection-start-column="29" selection-end-line="571" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/default.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
         </state>
       </provider>
     </entry>
