@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b5826d9e-5e15-4def-8385-2e89eea6210a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/default.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/default.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReactTelephoneInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReactTelephoneInput.js" afterDir="false" />
     </list>
@@ -19,8 +18,8 @@
       <file leaf-file-name="ReactTelephoneInput.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ReactTelephoneInput.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1524">
-              <caret line="571" column="29" selection-start-line="571" selection-start-column="29" selection-end-line="571" selection-end-column="29" />
+            <state relative-caret-position="1899">
+              <caret line="607" lean-forward="true" selection-start-line="607" selection-end-line="607" />
             </state>
           </provider>
         </entry>
@@ -28,8 +27,8 @@
       <file leaf-file-name="default.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/css/default.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+            <state relative-caret-position="1873">
+              <caret line="858" column="1" selection-start-line="858" selection-start-column="1" selection-end-line="858" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -225,12 +224,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1525728845486</updated>
-      <workItem from="1525728853882" duration="23458000" />
+      <workItem from="1525728853882" duration="23675000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23458000" />
+    <option name="totallyTimeSpent" value="23675000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1897" y="0" width="1943" height="2127" extended-state="0" />
@@ -321,15 +320,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ReactTelephoneInput.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1524">
-          <caret line="571" column="29" selection-start-line="571" selection-start-column="29" selection-end-line="571" selection-end-column="29" />
+        <state relative-caret-position="1899">
+          <caret line="607" lean-forward="true" selection-start-line="607" selection-end-line="607" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/default.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+        <state relative-caret-position="1873">
+          <caret line="858" column="1" selection-start-line="858" selection-start-column="1" selection-end-line="858" selection-end-column="1" />
         </state>
       </provider>
     </entry>

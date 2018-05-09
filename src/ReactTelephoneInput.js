@@ -29,22 +29,22 @@ var allCountryCodes = countryData.allCountryCodes;
 
 
 if (typeof document !== 'undefined') {
-  var isModernBrowser = Boolean(document.createElement('input').setSelectionRange);
+    var isModernBrowser = Boolean(document.createElement('input').setSelectionRange);
 } else {
-  var isModernBrowser = true;
+    var isModernBrowser = true;
 }
 
 var keys = {
-        UP: 38,
-        DOWN: 40,
-        RIGHT: 39,
-        LEFT: 37,
-        ENTER: 13,
-        ESC: 27,
-        PLUS: 43,
-        A: 65,
-        Z: 90,
-        SPACE: 32
+    UP: 38,
+    DOWN: 40,
+    RIGHT: 39,
+    LEFT: 37,
+    ENTER: 13,
+    ESC: 27,
+    PLUS: 43,
+    A: 65,
+    Z: 90,
+    SPACE: 32
 };
 
 function isNumberValid(inputNumber) {
@@ -137,7 +137,7 @@ export var ReactTelephoneInput = createReactClass({
         var container = ReactDOM.findDOMNode(this.refs.flagDropdownList);
 
         if(!container) {
-          return;
+            return;
         }
 
         var containerHeight = container.offsetHeight;
@@ -226,12 +226,12 @@ export var ReactTelephoneInput = createReactClass({
                 if (allCountryCodes[inputNumberForCountries] && allCountryCodes[inputNumberForCountries][0] === country.iso2) {
                     return country;
 
-                // if the selected country dialCode is there with the area code
+                    // if the selected country dialCode is there with the area code
 
                 } else if (allCountryCodes[inputNumberForCountries] && allCountryCodes[inputNumberForCountries][0] === selectedCountry.iso2) {
                     return selectedCountry;
 
-                // else do the original if statement
+                    // else do the original if statement
                 } else {
                     if (startsWith(inputNumber, country.dialCode)) {
                         if (country.dialCode.length > selectedCountry.dialCode.length) {
@@ -259,7 +259,7 @@ export var ReactTelephoneInput = createReactClass({
     },
     handleFlagDropdownClick() {
         if (this.props.disabled) {
-          return;
+            return;
         }
         // need to put the highlight on the current selected country if the dropdown is going to open up
         this.setState({
@@ -356,7 +356,7 @@ export var ReactTelephoneInput = createReactClass({
                 }
             });
         } else {
-          this.setState({showDropDown: false});
+            this.setState({showDropDown: false});
         }
     },
     handleInputFocus() {
@@ -435,7 +435,7 @@ export var ReactTelephoneInput = createReactClass({
     },
     handleKeydown(event) {
         if(!this.state.showDropDown) {
-           return;
+            return;
         }
 
         // ie hack
@@ -456,14 +456,14 @@ export var ReactTelephoneInput = createReactClass({
 
         switch(event.which) {
             case keys.DOWN:
-                    _moveHighlight(1);
-                    break;
+                _moveHighlight(1);
+                break;
             case keys.UP:
-                    _moveHighlight(-1);
-                    break;
+                _moveHighlight(-1);
+                break;
             case keys.ENTER:
-                    this.handleFlagItemClick(this.state.preferredCountries.concat(this.props.onlyCountries)[this.state.highlightCountryIndex], event);
-                    break;
+                this.handleFlagItemClick(this.state.preferredCountries.concat(this.props.onlyCountries)[this.state.highlightCountryIndex], event);
+                break;
             case keys.ESC:
                 this.setState({showDropDown: false}, this._cursorToEnd);
                 break;
@@ -535,9 +535,9 @@ export var ReactTelephoneInput = createReactClass({
         };
     },
     handleInputBlur() {
-      if(typeof this.props.onBlur === 'function') {
-        this.props.onBlur(this.state.formattedNumber, this.state.selectedCountry);
-      }
+        if(typeof this.props.onBlur === 'function') {
+            this.props.onBlur(this.state.formattedNumber, this.state.selectedCountry);
+        }
     },
     render() {
         var arrowClasses = classNames({
@@ -562,20 +562,32 @@ export var ReactTelephoneInput = createReactClass({
         return (
             <div className={classNames('react-tel-input', this.props.classNames, this.props.className)}>
                 <input
+                    id="prefix"
                     onChange={this.handleInput}
                     onClick={this.handleInputClick}
                     onFocus={this.handleInputFocus}
                     onBlur={this.handleInputBlur}
                     onKeyDown={this.handleInputKeyDown}
-                    value={this.state.formattedNumber}
+                    value={this.state.selectedCountry.dialCode}
                     ref="numberInput"
-                    type="tel"
+                    type="areacodetel"
                     className={inputClasses}
                     autoComplete={this.props.autoComplete}
                     pattern={this.props.pattern}
                     required={this.props.required}
                     placeholder={this.props.placeholder}
-                    disabled={this.props.disabled} {...otherProps}/>
+                    disabled="disabled" {...otherProps}/>
+                <input
+                    // onChange={this.handleInput}
+                    id='phonenumber'
+                    name='phonenumb'
+                    placeholder='Write here your mobile'
+                    className={inputClasses}
+                    ref="numberInput"
+                    type="tel"
+                    // autoComplete={this.props.autoComplete}
+                    pattern={this.props.pattern}
+                    required={this.props.required} {...otherProps}/>
                 <div ref='flagDropDownButton' className={flagViewClasses} onKeyDown={this.handleKeydown} >
                     <div ref='selectedFlag' onClick={this.handleFlagDropdownClick} className='selected-flag' title={`${this.state.selectedCountry.name}: + ${this.state.selectedCountry.dialCode}`}>
                         <div className={inputFlagClasses} style={this.getFlagStyle()}>
@@ -583,6 +595,9 @@ export var ReactTelephoneInput = createReactClass({
                         </div>
                     </div>
                     {this.state.showDropDown ? this.getCountryDropDownList() : ''}
+                </div>
+                <div className={classNames('react-tel-input', this.props.classNames, this.props.className)}>
+
                 </div>
             </div>
         );
