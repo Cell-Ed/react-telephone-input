@@ -562,20 +562,32 @@ export var ReactTelephoneInput = createReactClass({
         return (
             <div className={classNames('react-tel-input', this.props.classNames, this.props.className)}>
                 <input
+                    id="prefix"
                     onChange={this.handleInput}
                     onClick={this.handleInputClick}
                     onFocus={this.handleInputFocus}
                     onBlur={this.handleInputBlur}
                     onKeyDown={this.handleInputKeyDown}
-                    value={this.state.formattedNumber}
+                    value={this.state.selectedCountry.dialCode}
                     ref="numberInput"
-                    type="tel"
+                    type="areacodetel"
                     className={inputClasses}
                     autoComplete={this.props.autoComplete}
                     pattern={this.props.pattern}
                     required={this.props.required}
                     placeholder={this.props.placeholder}
                     disabled={this.props.disabled} {...otherProps}/>
+                <input
+                    // onChange={this.handleInput}
+                    id='phonenumber'
+                    name='phonenumb'
+                    placeholder='Write here your mobile'
+                    className={inputClasses}
+                    ref="numberInput"
+                    type="tel"
+                    autoComplete={this.props.autoComplete}
+                    pattern={this.props.pattern}
+                    required={this.props.required} {...otherProps}/>
                 <div ref='flagDropDownButton' className={flagViewClasses} onKeyDown={this.handleKeydown} >
                     <div ref='selectedFlag' onClick={this.handleFlagDropdownClick} className='selected-flag' title={`${this.state.selectedCountry.name}: + ${this.state.selectedCountry.dialCode}`}>
                         <div className={inputFlagClasses} style={this.getFlagStyle()}>
@@ -583,6 +595,9 @@ export var ReactTelephoneInput = createReactClass({
                         </div>
                     </div>
                     {this.state.showDropDown ? this.getCountryDropDownList() : ''}
+                </div>
+                <div className={classNames('react-tel-input', this.props.classNames, this.props.className)}>
+
                 </div>
             </div>
         );
