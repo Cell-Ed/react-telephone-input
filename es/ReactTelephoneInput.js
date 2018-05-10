@@ -574,20 +574,32 @@ export var ReactTelephoneInput = createReactClass({
             'div',
             { className: classNames('react-tel-input', this.props.classNames, this.props.className) },
             React.createElement('input', _extends({
+                id: 'prefix',
                 onChange: this.handleInput,
                 onClick: this.handleInputClick,
                 onFocus: this.handleInputFocus,
                 onBlur: this.handleInputBlur,
                 onKeyDown: this.handleInputKeyDown,
-                value: this.state.formattedNumber,
+                value: this.state.selectedCountry.dialCode,
                 ref: 'numberInput',
-                type: 'tel',
+                type: 'areacodetel',
                 className: inputClasses,
                 autoComplete: this.props.autoComplete,
                 pattern: this.props.pattern,
                 required: this.props.required,
                 placeholder: this.props.placeholder,
-                disabled: this.props.disabled }, otherProps)),
+                disabled: 'disabled' }, otherProps)),
+            React.createElement('input', _extends({
+                // onChange={this.handleInput}
+                id: 'phonenumber',
+                name: 'phonenumb',
+                placeholder: 'Write here your mobile',
+                className: inputClasses,
+                ref: 'numberInput',
+                type: 'tel'
+                // autoComplete={this.props.autoComplete}
+                , pattern: this.props.pattern,
+                required: this.props.required }, otherProps)),
             React.createElement(
                 'div',
                 { ref: 'flagDropDownButton', className: flagViewClasses, onKeyDown: this.handleKeydown },
@@ -601,7 +613,8 @@ export var ReactTelephoneInput = createReactClass({
                     )
                 ),
                 this.state.showDropDown ? this.getCountryDropDownList() : ''
-            )
+            ),
+            React.createElement('div', { className: classNames('react-tel-input', this.props.classNames, this.props.className) })
         );
     }
 });
