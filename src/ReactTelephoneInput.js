@@ -101,7 +101,7 @@ export var ReactTelephoneInput = createReactClass({
             onEnterKeyPress: function () {},
             preferredCountries: [],
             disabled: false,
-            placeholder: '+1 (702) 123-4567',
+            placeholder: '(702) 123-4567',
             autoComplete: 'tel',
             required: false,
         };
@@ -568,7 +568,7 @@ export var ReactTelephoneInput = createReactClass({
                     onFocus={this.handleInputFocus}
                     onBlur={this.handleInputBlur}
                     onKeyDown={this.handleInputKeyDown}
-                    value={this.state.selectedCountry.dialCode}
+                    value={"+" + this.state.selectedCountry.dialCode}
                     ref="numberInput"
                     type="areacodetel"
                     className={inputClasses}
@@ -580,15 +580,25 @@ export var ReactTelephoneInput = createReactClass({
                 <input
                     // onChange={this.handleInput}
                     id='phonenumber'
-                    name='phonenumb'
-                    placeholder='Write here your mobile'
+                    onChange={this.handleInput}
+                    onClick={this.handleInputClick}
+                    onFocus={this.handleInputFocus}
+                    onBlur={this.handleInputBlur}
+                    onKeyDown={this.handleInputKeyDown}
+                    placeholder={this.props.placeholder}
                     className={inputClasses}
                     ref="numberInput"
                     type="tel"
-                    value={this.state.formattedNumber}
                     // autoComplete={this.props.autoComplete}
                     pattern={this.props.pattern}
                     required={this.props.required} {...otherProps}/>
+                <input
+                    type="hidden"
+                    name="phnumb"
+                    onChange={this.handleInput}
+                    onKeyDown={this.handleInputKeyDown}
+                    value={this.state.formattedNumber}/>
+
                 <div ref='flagDropDownButton' className={flagViewClasses} onKeyDown={this.handleKeydown} >
                     <div ref='selectedFlag' onClick={this.handleFlagDropdownClick} className='selected-flag' title={`${this.state.selectedCountry.name}: + ${this.state.selectedCountry.dialCode}`}>
                         <div className={inputFlagClasses} style={this.getFlagStyle()}>

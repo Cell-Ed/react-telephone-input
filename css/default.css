@@ -1,6 +1,6 @@
 .react-tel-input {
   position: relative;
-  width: 300px;
+  width: 500px;
 }
 .react-tel-input .ad {
   background-position: -16px 0;
@@ -712,7 +712,7 @@
   z-index: 0;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  padding-left: 44px;
+  padding-left: 45px;
   margin-left: 0;
   background: #FFFFFF;
   border: 1px solid #CACACA;
@@ -720,7 +720,7 @@
   box-shadow: 0 1px 2px #E3E3E3 inset;
   line-height: 25px;
   height: 28px;
-  width: 30%;
+  width: 100px;
 }
 .react-tel-input input[type=tel] {
   position: relative;
@@ -735,7 +735,7 @@
   box-shadow: 0 1px 2px #E3E3E3 inset;
   line-height: 25px;
   height: 28px;
-  width: 40%;
+  width: 120px;
 }
 .react-tel-input input[type=text]:focus,
 .react-tel-input input[type=tel]:focus {
