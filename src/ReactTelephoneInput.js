@@ -585,6 +585,7 @@ export var ReactTelephoneInput = createReactClass({
                     className={inputClasses}
                     ref="numberInput"
                     type="tel"
+                    value={this.state.formattedNumber}
                     // autoComplete={this.props.autoComplete}
                     pattern={this.props.pattern}
                     required={this.props.required} {...otherProps}/>
