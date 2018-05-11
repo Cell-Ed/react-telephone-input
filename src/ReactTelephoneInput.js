@@ -291,15 +291,22 @@ export var ReactTelephoneInput = createReactClass({
         if(event.target.value.length > 0) {
             // before entering the number in new format, lets check if the dial code now matches some other country
             var inputNumber = event.target.value.replace(/\D/g, '');
+            this.state.plainNumber = this.state.selectedCountry.dialCode + inputNumber;
 
             // we don't need to send the whole number to guess the country... only the first 6 characters are enough
             // the guess country function can then use memoization much more effectively since the set of input it gets has drastically reduced
-            if(!this.state.freezeSelection || this.state.selectedCountry.dialCode.length > inputNumber.length) {
-                newSelectedCountry = this.guessSelectedCountry(inputNumber.substring(0, 6));
-                freezeSelection = false;
-            }
+            // if(!this.state.freezeSelection || this.state.selectedCountry.dialCode.length > inputNumber.length) {
+            //     newSelectedCountry = this.guessSelectedCountry(inputNumber.substring(0, 6));
+            //     freezeSelection = false;
+            // }
             // let us remove all non numerals from the input
             formattedNumber = this.formatNumber(inputNumber, newSelectedCountry.format);
+
+            // console.log(`Formated Number: ${formattedNumber}`);
+
+            console.log(`Country Code: ${this.state.selectedCountry.dialCode}`);
+
+            console.log(`plainNumber: ${this.state.plainNumber}`);
         }
 
         var caretPosition = event.target.selectionStart;
@@ -578,12 +585,8 @@ export var ReactTelephoneInput = createReactClass({
                     placeholder={this.props.placeholder}
                     disabled="disabled" {...otherProps}/>
                 <input
-                    // onChange={this.handleInput}
                     id='phonenumber'
                     onChange={this.handleInput}
-                    onClick={this.handleInputClick}
-                    onFocus={this.handleInputFocus}
-                    onBlur={this.handleInputBlur}
                     onKeyDown={this.handleInputKeyDown}
                     placeholder={this.props.placeholder}
                     className={inputClasses}
@@ -597,7 +600,7 @@ export var ReactTelephoneInput = createReactClass({
                     name="phnumb"
                     onChange={this.handleInput}
                     onKeyDown={this.handleInputKeyDown}
-                    value={this.state.formattedNumber}/>
+                    value={this.state.plainNumber}/>
 
                 <div ref='flagDropDownButton' className={flagViewClasses} onKeyDown={this.handleKeydown} >
                     <div ref='selectedFlag' onClick={this.handleFlagDropdownClick} className='selected-flag' title={`${this.state.selectedCountry.name}: + ${this.state.selectedCountry.dialCode}`}>
