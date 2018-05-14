@@ -169,35 +169,58 @@ export var ReactTelephoneInput = createReactClass({
             container.scrollTop = newScrollTop - heightDifference;
         }
     },
-    formatNumber(text, pattern) {
+    formatNumber(text, newSelectedCountry) {
+        let pattern = newSelectedCountry.format;
+        let jumper;
+        let phNumb;
         if(!text || text.length === 0) {
-            return '+';
+            return '';
         }
+        console.log(`Text || pattern: ${text} || ${pattern}`);
+        console.log(`Object newSelectedCountry ===> ${JSON.stringify(newSelectedCountry)}`);
 
-        // for all strings with length less than 3, just return it (1, 2 etc.)
-        // also return the same text if the selected country has no fixed format
-        if((text && text.length < 2) || !pattern || !this.props.autoFormat) {
-            return `+${text}`;
-        }
+        if(newSelectedCountry.dialCode > 0) {
+            jumper = newSelectedCountry.dialCode.length + 1;
+            phNumb = text.substring(jumper, text.length);
+            console.log(`====================================================================`);
+            console.log(`Country Code ........ ${newSelectedCountry.dialCode}`);
+            console.log(`Size: ${newSelectedCountry.dialCode.length}`);
+            console.log(`Will jump ${jumper} characters`);
+            console.log(`Mobile: ${phNumb}`);
+            console.log(`====================================================================`);
 
-        var formattedObject = reduce(pattern, function(acc, character) {
-            if(acc.remainingText.length === 0) {
-                return acc;
-            }
+            // for all strings with length less than 3, just return it (1, 2 etc.)
+            // also return the same text if the selected country has no fixed format
+            // if ((text && text.length < 2) || !pattern || !this.props.autoFormat) {
+            //     return `${text}`;
+            // }
 
-            if(character !== '.') {
+            var formattedObject = reduce(pattern, function (acc, character) {
+                if (acc.remainingText.length === 0) {
+                    return acc;
+                }
+                console.log(`Character: ${character}`);
+                console.log(`acc.remainingText.length: ${acc.remainingText.length}`);
+                console.log(`Acumulador: ${acc.formattedText}`);
+
+
+                if (acc.remainingText.length >= jumper) {
+                    if (character !== '.' && character !== '+') {
+                        console.log(`Char: ${character}`)
+                        return {
+                            formattedText: acc.formattedText + character,
+                            remainingText: acc.remainingText
+                        };
+                    }
+                }
+
                 return {
-                    formattedText: acc.formattedText + character,
-                    remainingText: acc.remainingText
+                    formattedText: acc.formattedText + first(acc.remainingText),
+                    remainingText: tail(acc.remainingText)
                 };
-            }
-
-            return {
-                formattedText: acc.formattedText + first(acc.remainingText),
-                remainingText: tail(acc.remainingText)
-            };
-        }, {formattedText: '', remainingText: text.split('')});
-        return formattedObject.formattedText + formattedObject.remainingText.join('');
+            }, {formattedText: '', remainingText: text.split('')});
+            return formattedObject.formattedText + formattedObject.remainingText.join('');
+        }
     },
 
     // put the cursor to the end of the input (usually after a focus event)
@@ -274,7 +297,7 @@ export var ReactTelephoneInput = createReactClass({
         });
     },
     handleInput(event) {
-        var formattedNumber = '+', newSelectedCountry = this.state.selectedCountry, freezeSelection = this.state.freezeSelection;
+        var formattedNumber = '', newSelectedCountry = this.state.selectedCountry, freezeSelection = this.state.freezeSelection;
 
         // if the input is the same as before, must be some special key like enter etc.
         if(event.target.value === this.state.formattedNumber) {
@@ -291,27 +314,17 @@ export var ReactTelephoneInput = createReactClass({
         if(event.target.value.length > 0) {
             // before entering the number in new format, lets check if the dial code now matches some other country
             var inputNumber = event.target.value.replace(/\D/g, '');
-            this.state.plainNumber = this.state.selectedCountry.dialCode + inputNumber;
 
-            // we don't need to send the whole number to guess the country... only the first 6 characters are enough
-            // the guess country function can then use memoization much more effectively since the set of input it gets has drastically reduced
-            // if(!this.state.freezeSelection || this.state.selectedCountry.dialCode.length > inputNumber.length) {
-            //     newSelectedCountry = this.guessSelectedCountry(inputNumber.substring(0, 6));
-            //     freezeSelection = false;
-            // }
-            // let us remove all non numerals from the input
-            formattedNumber = this.formatNumber(inputNumber, newSelectedCountry.format);
+            formattedNumber = this.formatNumber(inputNumber, newSelectedCountry);
 
-            // console.log(`Formated Number: ${formattedNumber}`);
-
-            console.log(`Country Code: ${this.state.selectedCountry.dialCode}`);
-
-            console.log(`plainNumber: ${this.state.plainNumber}`);
+            console.log(`Formated Number: ${formattedNumber}`);
         }
 
         var caretPosition = event.target.selectionStart;
         var oldFormattedText = this.state.formattedNumber;
         var diff = formattedNumber.length - oldFormattedText.length;
+
+        console.log(`oldFormattedText: ${oldFormattedText}`);
 
         this.setState({
             formattedNumber: formattedNumber,
@@ -338,7 +351,7 @@ export var ReactTelephoneInput = createReactClass({
         });
 
     },
-    handleInputClick() {
+    handleInputClick(event) {
         this.setState({showDropDown: false});
     },
     handleFlagItemClick(country) {
@@ -592,7 +605,8 @@ export var ReactTelephoneInput = createReactClass({
                     className={inputClasses}
                     ref="numberInput"
                     type="tel"
-                    // autoComplete={this.props.autoComplete}
+                    value={this.state.formattedNumber}
+                    autoComplete={this.props.autoComplete}
                     pattern={this.props.pattern}
                     required={this.props.required} {...otherProps}/>
                 <input
