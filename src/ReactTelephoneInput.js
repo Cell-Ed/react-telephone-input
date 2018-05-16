@@ -601,22 +601,11 @@ export var ReactTelephoneInput = createReactClass({
         }
         return (
             <div className={classNames('react-tel-input', this.props.classNames, this.props.className)}>
-                <input
+                <div
                     id="prefix"
-                    onChange={this.handleInput}
-                    onClick={this.handleInputClick}
-                    onFocus={this.handleInputFocus}
-                    onBlur={this.handleInputBlur}
-                    onKeyDown={this.handleInputKeyDown}
+                    className='dial-code-input'
                     value={"+" + this.state.selectedCountry.dialCode}
-                    ref="numberInput"
-                    type="areacodetel"
-                    className={inputClasses}
-                    autoComplete={this.props.autoComplete}
-                    pattern={this.props.pattern}
-                    required={this.props.required}
-                    placeholder={this.props.placeholder}
-                    disabled="disabled" {...otherProps}/>
+                    disabled="disabled" {...otherProps}>{"+" + this.state.selectedCountry.dialCode}</div>
                 <input
                     id='phonenumber'
                     onChange={this.handleInput}

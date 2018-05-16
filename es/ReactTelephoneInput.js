@@ -173,17 +173,16 @@ export var ReactTelephoneInput = createReactClass({
     /**
      * Provides inline formatting as the user types in the phone number.
      * This function will first attempt to compute a new pattern by removing the country code from it.
-     * E.g: 
+     * E.g:
      *  Long pattern for US :   '+. (...) ...-....'
      *  Short pattern:          '(...) ...-....'
-     * 
+     *
      * @param {string} text                 The input entered by the user
      * @param {Object} newSelectedCountry   The object representing country selection
      */
     formatNumber: function formatNumber(text, newSelectedCountry) {
         var pattern = newSelectedCountry.format;
         var charsToIgnore = void 0;
-        var phNumb = void 0;
         if (!text || text.length === 0) {
             return '';
         }
@@ -434,7 +433,7 @@ export var ReactTelephoneInput = createReactClass({
 
         var selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
         var selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
-        var formattedNumber = this.formatNumber(inputNumber.replace(/\D/g, ''), selectedCountryGuess ? selectedCountryGuess.format : null);
+        var formattedNumber = this.formatNumber(inputNumber.replace(/\D/g, ''), selectedCountryGuess);
 
         return {
             selectedCountry: selectedCountryGuess,
@@ -616,22 +615,15 @@ export var ReactTelephoneInput = createReactClass({
         return React.createElement(
             'div',
             { className: classNames('react-tel-input', this.props.classNames, this.props.className) },
-            React.createElement('input', _extends({
-                id: 'prefix',
-                onChange: this.handleInput,
-                onClick: this.handleInputClick,
-                onFocus: this.handleInputFocus,
-                onBlur: this.handleInputBlur,
-                onKeyDown: this.handleInputKeyDown,
-                value: "+" + this.state.selectedCountry.dialCode,
-                ref: 'numberInput',
-                type: 'areacodetel',
-                className: inputClasses,
-                autoComplete: this.props.autoComplete,
-                pattern: this.props.pattern,
-                required: this.props.required,
-                placeholder: this.props.placeholder,
-                disabled: 'disabled' }, otherProps)),
+            React.createElement(
+                'div',
+                _extends({
+                    id: 'prefix',
+                    className: 'dial-code-input',
+                    value: "+" + this.state.selectedCountry.dialCode,
+                    disabled: 'disabled' }, otherProps),
+                "+" + this.state.selectedCountry.dialCode
+            ),
             React.createElement('input', _extends({
                 id: 'phonenumber',
                 onChange: this.handleInput,
@@ -644,12 +636,6 @@ export var ReactTelephoneInput = createReactClass({
                 autoComplete: this.props.autoComplete,
                 pattern: this.props.pattern,
                 required: this.props.required }, otherProps)),
-            React.createElement('input', {
-                type: 'hidden',
-                name: 'phnumb',
-                onChange: this.handleInput,
-                onKeyDown: this.handleInputKeyDown,
-                value: this.state.plainNumber }),
             React.createElement(
                 'div',
                 { ref: 'flagDropDownButton', className: flagViewClasses, onKeyDown: this.handleKeydown },
@@ -663,8 +649,7 @@ export var ReactTelephoneInput = createReactClass({
                     )
                 ),
                 this.state.showDropDown ? this.getCountryDropDownList() : ''
-            ),
-            React.createElement('div', { className: classNames('react-tel-input', this.props.classNames, this.props.className) })
+            )
         );
     }
 });
