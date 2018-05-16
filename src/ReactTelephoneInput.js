@@ -101,7 +101,7 @@ export var ReactTelephoneInput = createReactClass({
             onEnterKeyPress: function () {},
             preferredCountries: [],
             disabled: false,
-            placeholder: '(702) 123-4567',
+            placeholder: '(703) 123-4567',
             autoComplete: 'tel',
             required: false,
         };
@@ -169,51 +169,51 @@ export var ReactTelephoneInput = createReactClass({
             container.scrollTop = newScrollTop - heightDifference;
         }
     },
+    /**
+     * Provides inline formatting as the user types in the phone number.
+     * This function will first attempt to compute a new pattern by removing the country code from it.
+     * E.g: 
+     *  Long pattern for US :   '+. (...) ...-....'
+     *  Short pattern:          '(...) ...-....'
+     * 
+     * @param {string} text                 The input entered by the user
+     * @param {Object} newSelectedCountry   The object representing country selection
+     */
     formatNumber(text, newSelectedCountry) {
         let pattern = newSelectedCountry.format;
-        let jumper;
+        let charsToIgnore;
         let phNumb;
         if(!text || text.length === 0) {
             return '';
         }
-        console.log(`Text || pattern: ${text} || ${pattern}`);
-        console.log(`Object newSelectedCountry ===> ${JSON.stringify(newSelectedCountry)}`);
 
         if(newSelectedCountry.dialCode > 0) {
-            jumper = newSelectedCountry.dialCode.length + 1;
-            phNumb = text.substring(jumper, text.length);
-            console.log(`====================================================================`);
-            console.log(`Country Code ........ ${newSelectedCountry.dialCode}`);
-            console.log(`Size: ${newSelectedCountry.dialCode.length}`);
-            console.log(`Will jump ${jumper} characters`);
-            console.log(`Mobile: ${phNumb}`);
-            console.log(`====================================================================`);
+            charsToIgnore = newSelectedCountry.dialCode.length;
 
-            // for all strings with length less than 3, just return it (1, 2 etc.)
-            // also return the same text if the selected country has no fixed format
-            // if ((text && text.length < 2) || !pattern || !this.props.autoFormat) {
-            //     return `${text}`;
-            // }
+            // return the same text if the selected country has no fixed format or autoformatting is turned off
+            if (!pattern || !this.props.autoFormat) {
+                return `${text}`;
+            }
 
-            var formattedObject = reduce(pattern, function (acc, character) {
-                if (acc.remainingText.length === 0) {
+            //////////////////////////////////////////////////
+            // STRIP THE DIAL CODE FROM THE ORIGINAL PATTERN
+            //////////////////////////////////////////////////
+            var shortFormatPattern = this.stripDialCodeFromPattern(pattern, newSelectedCountry.dialCode);
+
+            //////////////////////////////////////////////////
+            // FORMAT INPUT
+            //////////////////////////////////////////////////
+            var formattedObject = reduce(shortFormatPattern, function(acc, character, idx) {
+                if(acc.remainingText.length === 0) {
                     return acc;
                 }
-                console.log(`Character: ${character}`);
-                console.log(`acc.remainingText.length: ${acc.remainingText.length}`);
-                console.log(`Acumulador: ${acc.formattedText}`);
-
-
-                if (acc.remainingText.length >= jumper) {
-                    if (character !== '.' && character !== '+') {
-                        console.log(`Char: ${character}`)
-                        return {
-                            formattedText: acc.formattedText + character,
-                            remainingText: acc.remainingText
-                        };
-                    }
+                if(character !== '.') {
+                    return {
+                        formattedText: acc.formattedText + character,
+                        remainingText: acc.remainingText
+                    };
                 }
-
+    
                 return {
                     formattedText: acc.formattedText + first(acc.remainingText),
                     remainingText: tail(acc.remainingText)
@@ -221,6 +221,28 @@ export var ReactTelephoneInput = createReactClass({
             }, {formattedText: '', remainingText: text.split('')});
             return formattedObject.formattedText + formattedObject.remainingText.join('');
         }
+    },
+    stripDialCodeFromPattern(pattern, dialCode){
+        var charsToIgnore = dialCode.length;
+        var shortFormatPattern = "";
+        for(var i = 0, ignoredFormattingChars = 0; i< pattern.length; i++){
+            var c = pattern.charAt(i);
+            if (c === '.'){
+                ignoredFormattingChars++;
+                if (ignoredFormattingChars == charsToIgnore){
+                    // we have 'consumed' the same amount of '.' characters as the number of characters
+                    // on the dial code. We now need to make sure there aren't left any characters like '-' or space or ')'
+                    var strippedPattern = pattern.slice(i+1);
+                    var nextValidIndex = strippedPattern.indexOf('.');
+                    if (nextValidIndex > 0 && strippedPattern.charAt(nextValidIndex-1) == "("){
+                        nextValidIndex--;
+                    }
+                    shortFormatPattern = strippedPattern.slice(nextValidIndex);
+                    break;
+                }
+            }
+        }
+        return shortFormatPattern;
     },
 
     // put the cursor to the end of the input (usually after a focus event)
@@ -310,11 +332,11 @@ export var ReactTelephoneInput = createReactClass({
         } else {
             event.returnValue = false;
         }
-
+        console.log(`Input Value : ${event.target.value}`);
         if(event.target.value.length > 0) {
             // before entering the number in new format, lets check if the dial code now matches some other country
             var inputNumber = event.target.value.replace(/\D/g, '');
-
+            console.log(`InputNumber : ${inputNumber}, newSelectedCountry: ${JSON.stringify(newSelectedCountry)}`);
             formattedNumber = this.formatNumber(inputNumber, newSelectedCountry);
 
             console.log(`Formated Number: ${formattedNumber}`);
@@ -360,15 +382,15 @@ export var ReactTelephoneInput = createReactClass({
 
         // tiny optimization
         if(currentSelectedCountry.iso2 !== nextSelectedCountry.iso2) {
-            var dialCodeRegex = RegExp('^(\\+' + currentSelectedCountry.dialCode + ')|\\+');
-            var newNumber = this.state.formattedNumber.replace(dialCodeRegex, '+' + nextSelectedCountry.dialCode);
-            var formattedNumber = this.formatNumber(newNumber.replace(/\D/g, ''), nextSelectedCountry.format);
+            // var dialCodeRegex = RegExp('^(\\+' + currentSelectedCountry.dialCode + ')|\\+');
+            // var newNumber = this.state.formattedNumber.replace(dialCodeRegex, '+' + nextSelectedCountry.dialCode);
+            // var formattedNumber = this.formatNumber(newNumber.replace(/\D/g, ''), nextSelectedCountry.format);
 
             this.setState({
                 showDropDown: false,
                 selectedCountry: nextSelectedCountry,
                 freezeSelection: true,
-                formattedNumber: formattedNumber
+                formattedNumber: ""
             }, function() {
                 this._cursorToEnd();
                 if(this.props.onChange) {
