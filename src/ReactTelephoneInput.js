@@ -410,7 +410,7 @@ export var ReactTelephoneInput = createReactClass({
     },
     _mapPropsToState(props, firstCall = false) {
         let inputNumber;
-
+        
         if(props.value) {
             inputNumber = props.value
         } else if(props.initialValue && firstCall) {
@@ -427,8 +427,7 @@ export var ReactTelephoneInput = createReactClass({
         let selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
         let selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
         let formattedNumber = this.formatNumber(
-            inputNumber.replace(/\D/g, ''), selectedCountryGuess ? selectedCountryGuess.format : null
-        );
+            inputNumber.replace(/\D/g, ''), selectedCountryGuess);
 
         return {
             selectedCountry: selectedCountryGuess,
@@ -637,9 +636,6 @@ export var ReactTelephoneInput = createReactClass({
                         </div>
                     </div>
                     {this.state.showDropDown ? this.getCountryDropDownList() : ''}
-                </div>
-                <div className={classNames('react-tel-input', this.props.classNames, this.props.className)}>
-
                 </div>
             </div>
         );
