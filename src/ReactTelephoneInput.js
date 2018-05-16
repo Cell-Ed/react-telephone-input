@@ -172,17 +172,16 @@ export var ReactTelephoneInput = createReactClass({
     /**
      * Provides inline formatting as the user types in the phone number.
      * This function will first attempt to compute a new pattern by removing the country code from it.
-     * E.g: 
+     * E.g:
      *  Long pattern for US :   '+. (...) ...-....'
      *  Short pattern:          '(...) ...-....'
-     * 
+     *
      * @param {string} text                 The input entered by the user
      * @param {Object} newSelectedCountry   The object representing country selection
      */
     formatNumber(text, newSelectedCountry) {
         let pattern = newSelectedCountry.format;
         let charsToIgnore;
-        let phNumb;
         if(!text || text.length === 0) {
             return '';
         }
@@ -213,7 +212,7 @@ export var ReactTelephoneInput = createReactClass({
                         remainingText: acc.remainingText
                     };
                 }
-    
+
                 return {
                     formattedText: acc.formattedText + first(acc.remainingText),
                     remainingText: tail(acc.remainingText)
@@ -631,13 +630,6 @@ export var ReactTelephoneInput = createReactClass({
                     autoComplete={this.props.autoComplete}
                     pattern={this.props.pattern}
                     required={this.props.required} {...otherProps}/>
-                <input
-                    type="hidden"
-                    name="phnumb"
-                    onChange={this.handleInput}
-                    onKeyDown={this.handleInputKeyDown}
-                    value={this.state.plainNumber}/>
-
                 <div ref='flagDropDownButton' className={flagViewClasses} onKeyDown={this.handleKeydown} >
                     <div ref='selectedFlag' onClick={this.handleFlagDropdownClick} className='selected-flag' title={`${this.state.selectedCountry.name}: + ${this.state.selectedCountry.dialCode}`}>
                         <div className={inputFlagClasses} style={this.getFlagStyle()}>
