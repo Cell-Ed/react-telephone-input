@@ -89,7 +89,8 @@ export var ReactTelephoneInput = createReactClass({
         onFocus: PropTypes.func,
         disabled: PropTypes.bool,
         pattern: PropTypes.string,
-        required: PropTypes.bool
+        required: PropTypes.bool,
+        placeholder: PropTypes.string
     },
     getDefaultProps: function getDefaultProps() {
         return {
@@ -388,7 +389,7 @@ export var ReactTelephoneInput = createReactClass({
         if (currentSelectedCountry.iso2 !== nextSelectedCountry.iso2) {
             // var dialCodeRegex = RegExp('^(\\+' + currentSelectedCountry.dialCode + ')|\\+');
             // var newNumber = this.state.formattedNumber.replace(dialCodeRegex, '+' + nextSelectedCountry.dialCode);
-            // var formattedNumber = this.formatNumber(newNumber.replace(/\D/g, ''), nextSelectedCountry.format);
+            var formattedNumber = "";
 
             this.setState({
                 showDropDown: false,
