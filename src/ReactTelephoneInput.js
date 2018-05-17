@@ -424,7 +424,13 @@ export var ReactTelephoneInput = createReactClass({
             inputNumber = ''
         }
 
-        let selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
+        var selectedCountryGuess;
+		if (!this.state || !this.state.selectedCountry) {
+			selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
+		} else {
+			selectedCountryGuess = this.state.selectedCountry;	
+		}
+
         let selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
         let formattedNumber = this.formatNumber(
             inputNumber.replace(/\D/g, ''), selectedCountryGuess);
