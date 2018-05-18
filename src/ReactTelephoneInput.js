@@ -332,21 +332,15 @@ export var ReactTelephoneInput = createReactClass({
         } else {
             event.returnValue = false;
         }
-        console.log(`Input Value : ${event.target.value}`);
         if(event.target.value.length > 0) {
             // before entering the number in new format, lets check if the dial code now matches some other country
             var inputNumber = event.target.value.replace(/\D/g, '');
-            console.log(`InputNumber : ${inputNumber}, newSelectedCountry: ${JSON.stringify(newSelectedCountry)}`);
             formattedNumber = this.formatNumber(inputNumber, newSelectedCountry);
-
-            console.log(`Formated Number: ${formattedNumber}`);
         }
 
         var caretPosition = event.target.selectionStart;
         var oldFormattedText = this.state.formattedNumber;
         var diff = formattedNumber.length - oldFormattedText.length;
-
-        console.log(`oldFormattedText: ${oldFormattedText}`);
 
         this.setState({
             formattedNumber: formattedNumber,
@@ -427,7 +421,11 @@ export var ReactTelephoneInput = createReactClass({
 
         var selectedCountryGuess;
 		if (!this.state || !this.state.selectedCountry) {
-			selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
+            selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
+            if (inputNumber.startsWith('+')){
+            	inputNumber = inputNumber.slice(selectedCountryGuess.dialCode.length + 1);
+			}
+
 		} else {
 			selectedCountryGuess = this.state.selectedCountry;	
 		}
