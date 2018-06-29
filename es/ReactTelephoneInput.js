@@ -29,6 +29,9 @@ var allCountries = countryData.allCountries;
 var iso2Lookup = countryData.iso2Lookup;
 var allCountryCodes = countryData.allCountryCodes;
 
+allCountries[iso2Lookup['gh']].format = '+...-..-...-....';
+allCountries[iso2Lookup['ke']].format = '+...-...-...-...';
+
 if (typeof document !== 'undefined') {
     var isModernBrowser = Boolean(document.createElement('input').setSelectionRange);
 } else {
