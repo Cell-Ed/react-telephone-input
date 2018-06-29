@@ -8,6 +8,7 @@ class Demo extends Component {
     return <div>
       <h1>React Telephone Input Demo</h1>
       <RTI
+        defaultCountry="ur"
         defaultCountry="us"
         flagsImagePath="./images/flags.png"
       />
