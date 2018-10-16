@@ -117,8 +117,24 @@ export var ReactTelephoneInput = createReactClass({
         return this.getNumber();
     },
     componentDidMount: function componentDidMount() {
-        document.addEventListener('keydown', this.handleKeydown);
+        var _this = this;
 
+        document.addEventListener('keydown', this.handleKeydown);
+        try {
+            fetch('http://ip-api.com/json').then(function (response) {
+                response.json().then(function (data) {
+                    var country = find(allCountries, { iso2: data.countryCode.toLowerCase() });
+                    _this.setState(function () {
+                        return { selectedCountry: country };
+                    });
+                });
+            }).catch(function (err) {
+                console.warn('Error getting country code: ' + err);
+                return;
+            });
+        } catch (err) {
+            console.warn('Error fetching ' + err);
+        }
         this._cursorToEnd(true);
         if (typeof this.props.onChange === 'function') {
             this.props.onChange(this.state.formattedNumber, this.state.selectedCountry);
@@ -308,7 +324,7 @@ export var ReactTelephoneInput = createReactClass({
         return ReactDOM.findDOMNode(this.refs['flag_no_' + index]);
     },
     handleFlagDropdownClick: function handleFlagDropdownClick() {
-        var _this = this;
+        var _this2 = this;
 
         if (this.props.disabled) {
             return;
@@ -320,8 +336,8 @@ export var ReactTelephoneInput = createReactClass({
             highlightCountryIndex: findIndex(this.state.preferredCountries.concat(this.props.onlyCountries), this.state.selectedCountry)
         }, function () {
             // only need to scrool if the dropdown list is alive
-            if (_this.state.showDropDown) {
-                _this.scrollTo(_this.getElement(_this.state.highlightCountryIndex + _this.state.preferredCountries.length));
+            if (_this2.state.showDropDown) {
+                _this2.scrollTo(_this2.getElement(_this2.state.highlightCountryIndex + _this2.state.preferredCountries.length));
             }
         });
     },
