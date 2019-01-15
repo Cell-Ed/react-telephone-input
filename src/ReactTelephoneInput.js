@@ -117,22 +117,6 @@ export var ReactTelephoneInput = createReactClass({
     },
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeydown);
-        try {
-            fetch('http://ip-api.com/json').then((response) => {
-                response.json()
-                .then((data) => {
-                    const country = find(allCountries, {iso2: data.countryCode.toLowerCase()})
-                    this.setState(() => 
-                        ({ selectedCountry: country }))
-                })
-            })
-            .catch((err) => {
-                console.warn(`Error getting country code: ${err}`);
-                return;
-            })
-        } catch (err) {
-            console.warn(`Error fetching ${err}`);
-        }
         this._cursorToEnd(true);
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(this.state.formattedNumber, this.state.selectedCountry);
