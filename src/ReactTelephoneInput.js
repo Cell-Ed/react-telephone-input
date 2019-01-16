@@ -86,6 +86,7 @@ export var ReactTelephoneInput = createReactClass({
         className: PropTypes.string,
         inputId: PropTypes.string,
         onChange: PropTypes.func,
+        asyncCountryCodeDefault: PropTypes.string,
         onEnterKeyPress: PropTypes.func,
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
@@ -116,17 +117,30 @@ export var ReactTelephoneInput = createReactClass({
         return this.getNumber();
     },
     componentDidMount() {
+        
         document.addEventListener('keydown', this.handleKeydown);
         this._cursorToEnd(true);
+        
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(this.state.formattedNumber, this.state.selectedCountry);
         }
+
+        this.setState(this._mapPropsToState(this.props));
+
+        if(this.props.asyncCountryCodeDefault){
+            this.props.asyncCountryCodeDefault().then(res => {
+                var country = find(allCountries, { iso2: res.data.countryCode ? res.data.countryCode.toLowerCase() : 'us' }) || this.props.onlyCountries[0];
+                this.handleFlagItemClick(country);
+            }).catch((err) => {
+              console.log(err);
+            });
+        }        
     },
     shouldComponentUpdate(nextProps, nextState) {
         return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
     },
     componentWillReceiveProps(nextProps) {
-        this.setState(this._mapPropsToState(nextProps, false, nextProps.defaultCountry));
+        // this.setState(this._mapPropsToState(nextProps));
     },
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeydown);
@@ -404,7 +418,7 @@ export var ReactTelephoneInput = createReactClass({
 
         this._fillDialCode();
     },
-    _mapPropsToState(props, firstCall = false, defaultCountry = false) {
+    _mapPropsToState(props, firstCall = false) {
         let inputNumber;
         if(props.value) {
             inputNumber = props.value
@@ -429,11 +443,6 @@ export var ReactTelephoneInput = createReactClass({
         } else {
             selectedCountryGuess = this.state.selectedCountry;	
         }
-
-        if(defaultCountry){
-            selectedCountryGuess = find(allCountries, {iso2: defaultCountry});
-        }
-
 
         let selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
         let formattedNumber = this.formatNumber(

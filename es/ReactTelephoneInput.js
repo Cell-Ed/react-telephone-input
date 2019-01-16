@@ -87,6 +87,7 @@ export var ReactTelephoneInput = createReactClass({
         className: PropTypes.string,
         inputId: PropTypes.string,
         onChange: PropTypes.func,
+        asyncCountryCodeDefault: PropTypes.string,
         onEnterKeyPress: PropTypes.func,
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
@@ -117,17 +118,31 @@ export var ReactTelephoneInput = createReactClass({
         return this.getNumber();
     },
     componentDidMount: function componentDidMount() {
+        var _this = this;
+
         document.addEventListener('keydown', this.handleKeydown);
         this._cursorToEnd(true);
+
         if (typeof this.props.onChange === 'function') {
             this.props.onChange(this.state.formattedNumber, this.state.selectedCountry);
+        }
+
+        this.setState(this._mapPropsToState(this.props));
+
+        if (this.props.asyncCountryCodeDefault) {
+            this.props.asyncCountryCodeDefault().then(function (res) {
+                var country = find(allCountries, { iso2: res.data.countryCode ? res.data.countryCode.toLowerCase() : 'us' }) || _this.props.onlyCountries[0];
+                _this.handleFlagItemClick(country);
+            }).catch(function (err) {
+                console.log(err);
+            });
         }
     },
     shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
         return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
     },
     componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-        this.setState(this._mapPropsToState(nextProps, false, nextProps.defaultCountry));
+        // this.setState(this._mapPropsToState(nextProps));
     },
     componentWillUnmount: function componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeydown);
@@ -307,7 +322,7 @@ export var ReactTelephoneInput = createReactClass({
         return ReactDOM.findDOMNode(this.refs['flag_no_' + index]);
     },
     handleFlagDropdownClick: function handleFlagDropdownClick() {
-        var _this = this;
+        var _this2 = this;
 
         if (this.props.disabled) {
             return;
@@ -319,8 +334,8 @@ export var ReactTelephoneInput = createReactClass({
             highlightCountryIndex: findIndex(this.state.preferredCountries.concat(this.props.onlyCountries), this.state.selectedCountry)
         }, function () {
             // only need to scrool if the dropdown list is alive
-            if (_this.state.showDropDown) {
-                _this.scrollTo(_this.getElement(_this.state.highlightCountryIndex + _this.state.preferredCountries.length));
+            if (_this2.state.showDropDown) {
+                _this2.scrollTo(_this2.getElement(_this2.state.highlightCountryIndex + _this2.state.preferredCountries.length));
             }
         });
     },
@@ -412,7 +427,6 @@ export var ReactTelephoneInput = createReactClass({
     },
     _mapPropsToState: function _mapPropsToState(props) {
         var firstCall = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        var defaultCountry = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
         var inputNumber = void 0;
         if (props.value) {
@@ -436,10 +450,6 @@ export var ReactTelephoneInput = createReactClass({
             }
         } else {
             selectedCountryGuess = this.state.selectedCountry;
-        }
-
-        if (defaultCountry) {
-            selectedCountryGuess = find(allCountries, { iso2: defaultCountry });
         }
 
         var selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
