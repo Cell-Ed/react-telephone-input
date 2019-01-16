@@ -432,7 +432,6 @@ export var ReactTelephoneInput = createReactClass({
 
         if(defaultCountry){
             selectedCountryGuess = find(allCountries, {iso2: defaultCountry});
-            console.log(selectedCountryGuess);
         }
 
 
