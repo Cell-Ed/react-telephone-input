@@ -126,7 +126,7 @@ export var ReactTelephoneInput = createReactClass({
         return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
     },
     componentWillReceiveProps(nextProps) {
-        this.setState(this._mapPropsToState(nextProps));
+        this.setState(this._mapPropsToState(nextProps, false, nextProps.defaultCountry));
     },
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeydown);
@@ -404,9 +404,8 @@ export var ReactTelephoneInput = createReactClass({
 
         this._fillDialCode();
     },
-    _mapPropsToState(props, firstCall = false) {
+    _mapPropsToState(props, firstCall = false, defaultCountry = false) {
         let inputNumber;
-        
         if(props.value) {
             inputNumber = props.value
         } else if(props.initialValue && firstCall) {
@@ -421,15 +420,21 @@ export var ReactTelephoneInput = createReactClass({
         }
 
         var selectedCountryGuess;
-		if (!this.state || !this.state.selectedCountry) {
+        if (!this.state || !this.state.selectedCountry) {
             selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
             if (inputNumber.startsWith('+')){
-            	inputNumber = inputNumber.slice(selectedCountryGuess.dialCode.length + 1);
-			}
+                inputNumber = inputNumber.slice(selectedCountryGuess.dialCode.length + 1);
+            }
 
-		} else {
-			selectedCountryGuess = this.state.selectedCountry;	
-		}
+        } else {
+            selectedCountryGuess = this.state.selectedCountry;	
+        }
+
+        if(defaultCountry){
+            selectedCountryGuess = find(allCountries, {iso2: defaultCountry});
+            console.log(selectedCountryGuess);
+        }
+
 
         let selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
         let formattedNumber = this.formatNumber(

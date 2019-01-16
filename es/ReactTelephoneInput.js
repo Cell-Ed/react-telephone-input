@@ -127,7 +127,7 @@ export var ReactTelephoneInput = createReactClass({
         return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
     },
     componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-        this.setState(this._mapPropsToState(nextProps));
+        this.setState(this._mapPropsToState(nextProps, false, nextProps.defaultCountry));
     },
     componentWillUnmount: function componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeydown);
@@ -412,9 +412,9 @@ export var ReactTelephoneInput = createReactClass({
     },
     _mapPropsToState: function _mapPropsToState(props) {
         var firstCall = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        var defaultCountry = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
         var inputNumber = void 0;
-
         if (props.value) {
             inputNumber = props.value;
         } else if (props.initialValue && firstCall) {
@@ -436,6 +436,11 @@ export var ReactTelephoneInput = createReactClass({
             }
         } else {
             selectedCountryGuess = this.state.selectedCountry;
+        }
+
+        if (defaultCountry) {
+            selectedCountryGuess = find(allCountries, { iso2: defaultCountry });
+            console.log(selectedCountryGuess);
         }
 
         var selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
