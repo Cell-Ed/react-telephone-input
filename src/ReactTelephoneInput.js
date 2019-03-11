@@ -86,7 +86,7 @@ export var ReactTelephoneInput = createReactClass({
         className: PropTypes.string,
         inputId: PropTypes.string,
         onChange: PropTypes.func,
-        asyncCountryCodeDefault: PropTypes.string,
+        asyncCountryCodeDefault: PropTypes.func,
         onEnterKeyPress: PropTypes.func,
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
