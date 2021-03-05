@@ -22,13 +22,13 @@ var createReactClass = require('create-react-class');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var onClickOutside = require('react-onclickoutside');
 var classNames = require('classnames');
 var countryData = require('country-telephone-data');
 var allCountries = countryData.allCountries;
 var iso2Lookup = countryData.iso2Lookup;
 var allCountryCodes = countryData.allCountryCodes;
 
+import onClickOutside from "react-onclickoutside";
 allCountries[iso2Lookup['gh']].format = '+...-..-...-....';
 allCountries[iso2Lookup['ke']].format = '+...-...-...-...';
 
